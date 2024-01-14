@@ -13,11 +13,11 @@ import { useState } from 'react'
 
 function App() {
   // eslint-disable-next-line no-unused-vars
-  const [selectedTab, setSelectedTab] = useState('Home')
+  const [selectedTab, setSelectedTab] = useState('Create Post')
 
   return (
     <div className='app-container'>
-      <Sidebar selectedTab = {selectedTab} />
+      <Sidebar selectedTab = {selectedTab} setSelectedTab = {setSelectedTab} />
       <div className='content'>
         <Header />
         {selectedTab == 'Home' ? (< PostList />) : (<CreatePost />)}
