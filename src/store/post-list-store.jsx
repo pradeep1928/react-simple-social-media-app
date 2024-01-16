@@ -23,6 +23,7 @@ const DEFAULT_POST_LIST = [
 export const PostList = createContext({
     postList: [],
     addPost: () => { },
+    fetchDummyPosts: () => { },
     deletePost: () => { }
 })
 
@@ -30,6 +31,8 @@ const postListReducer = (currPostList, action) => {
     let newPostList = currPostList
     if (action.type === 'DELETE_POST') {
         newPostList = currPostList.filter((post) => post.id !== action.payload.postId)
+    } else if (action.type === 'FETCH_DUMMY_POSTS') {
+        newPostList = action.payload.posts
     } else if (action.type === 'ADD_POST') {
         newPostList = [action.payload, ...currPostList]
     }
@@ -51,7 +54,16 @@ const PostListProvider = ({ children }) => {
                 tags: tags
             }
         })
-     };
+    };
+
+    const fetchDummyPosts = (posts) => {
+        dispatchPostList({
+            type: 'FETCH_DUMMY_POSTS',
+            payload: {
+                posts
+            }
+        })
+    }
 
     const deletePost = (postId) => {
         dispatchPostList({
@@ -62,7 +74,7 @@ const PostListProvider = ({ children }) => {
         })
     };
 
-    return <PostList.Provider value={{ postList, addPost, deletePost }}>
+    return <PostList.Provider value={{ postList, addPost, fetchDummyPosts, deletePost }}>
         {children}
     </PostList.Provider>
 }

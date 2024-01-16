@@ -30,7 +30,7 @@ const CreatePost = () => {
     addPost(userID, postTitle, postBody, reactions, tags)
   }
 
-  return <form style={{ maxWidth: '600px' }} className="m-5" onSubmit={handleSubmit}>
+  return <form style={{ maxWidth: '650px' }} className="m-5 p-4 border border-primary shadow bg-body-tertiary rounded" onSubmit={handleSubmit}>
     <div className="mb-3">
       <label htmlFor="userID" className="form-label">Enter your user-id here</label>
       <input type="text" ref={userIdElement} className="form-control" id="userID" placeholder="Your user id" />
