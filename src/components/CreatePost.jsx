@@ -25,31 +25,41 @@ const CreatePost = () => {
     reactionsElement.current.value = "";
     tagsElement.current.value = "";
 
-
-
-    addPost(userID, postTitle, postBody, reactions, tags)
+    fetch('https://dummyjson.com/posts/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: postTitle,
+        body: postBody,
+        reactions: reactions,
+        userId: userID,
+        tags: tags
+      })
+    })
+      .then(res => res.json())
+      .then(post => addPost(post));
   }
 
   return <form style={{ maxWidth: '650px' }} className="m-5 p-4 border border-primary shadow bg-body-tertiary rounded" onSubmit={handleSubmit}>
     <div className="mb-3">
       <label htmlFor="userID" className="form-label">Enter your user-id here</label>
-      <input type="text" ref={userIdElement} className="form-control" id="userID" placeholder="Your user id" />
+      <input type="text" ref={userIdElement} className="form-control" id="userID" placeholder="Your user id" required />
     </div>
     <div className="mb-3">
       <label htmlFor="title" className="form-label">Post Title</label>
-      <input type="text" ref={postTitleElement} className="form-control" id="title" placeholder="How are you feeling today..." />
+      <input type="text" ref={postTitleElement} className="form-control" id="title" placeholder="How are you feeling today..." required/>
     </div>
     <div className="mb-3">
       <label htmlFor="content" className="form-label">Post Content</label>
-      <textarea type="text" rows={4} ref={postBodyElement} className="form-control" id="content" placeholder="Tell us more about it" />
+      <textarea type="text" rows={4} ref={postBodyElement} className="form-control" id="content" placeholder="Tell us more about it" required/>
     </div>
     <div className="mb-3">
       <label htmlFor="reactions" className="form-label">Number of Reactions</label>
-      <input type="text" ref={reactionsElement} className="form-control" id="reactions" placeholder="How many people reacted to this post" />
+      <input type="text" ref={reactionsElement} className="form-control" id="reactions" placeholder="How many people reacted to this post" required/>
     </div>
     <div className="mb-3">
       <label htmlFor="tags" className="form-label">Enter your tags</label>
-      <input type="text" ref={tagsElement} className="form-control" id="tags" placeholder="Please enter your tags using space" />
+      <input type="text" ref={tagsElement} className="form-control" id="tags" placeholder="Please enter your tags using space" required/>
     </div>
 
     <button type="submit" className="btn btn-primary">Submit</button>

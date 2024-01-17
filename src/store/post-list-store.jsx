@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 export const PostList = createContext({
     postList: [],
+    fetching: false,
     addPost: () => { },
-    fetchDummyPosts: () => { },
     deletePost: () => { }
 })
 
@@ -22,18 +22,12 @@ const postListReducer = (currPostList, action) => {
 
 const PostListProvider = ({ children }) => {
     const [postList, dispatchPostList] = useReducer(postListReducer, []);
+    const [fetching, setFetching] = useState(false)
 
-    const addPost = (userID, postTitle, postBody, reactions, tags) => {
+    const addPost = (post) => {
         dispatchPostList({
             type: 'ADD_POST',
-            payload: {
-                id: Date.now(),
-                title: postTitle,
-                body: postBody,
-                reactions: reactions,
-                user_id: userID,
-                tags: tags
-            }
+            payload: post
         })
     };
 
@@ -55,7 +49,25 @@ const PostListProvider = ({ children }) => {
         })
     };
 
-    return <PostList.Provider value={{ postList, addPost, fetchDummyPosts, deletePost }}>
+    useEffect(() => {
+        setFetching(true)
+        const controller = new AbortController()
+        const signal = controller.signal
+
+        fetch('https://dummyjson.com/posts', { signal })
+            .then(res => res.json())
+            .then(data => {
+                fetchDummyPosts(data.posts)
+                setFetching(false)
+            });
+
+        return () => {
+            controller.abort()
+        }
+    }, [])
+
+
+    return <PostList.Provider value={{ postList, fetching, addPost, deletePost }}>
         {children}
     </PostList.Provider>
 }
