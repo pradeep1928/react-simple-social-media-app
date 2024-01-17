@@ -1,9 +1,10 @@
 import { useContext, useRef } from "react"
 import { PostList } from '../store/post-list-store'
+import { useNavigate } from "react-router-dom"
 
 const CreatePost = () => {
-
   const { addPost } = useContext(PostList)
+  const navigate = useNavigate()
 
   const userIdElement = useRef();
   const postTitleElement = useRef();
@@ -37,7 +38,10 @@ const CreatePost = () => {
       })
     })
       .then(res => res.json())
-      .then(post => addPost(post));
+      .then((post) => {
+        addPost(post)
+        navigate('/')
+      });
   }
 
   return <form style={{ maxWidth: '650px' }} className="m-5 p-4 border border-primary shadow bg-body-tertiary rounded" onSubmit={handleSubmit}>
@@ -47,19 +51,19 @@ const CreatePost = () => {
     </div>
     <div className="mb-3">
       <label htmlFor="title" className="form-label">Post Title</label>
-      <input type="text" ref={postTitleElement} className="form-control" id="title" placeholder="How are you feeling today..." required/>
+      <input type="text" ref={postTitleElement} className="form-control" id="title" placeholder="How are you feeling today..." required />
     </div>
     <div className="mb-3">
       <label htmlFor="content" className="form-label">Post Content</label>
-      <textarea type="text" rows={4} ref={postBodyElement} className="form-control" id="content" placeholder="Tell us more about it" required/>
+      <textarea type="text" rows={4} ref={postBodyElement} className="form-control" id="content" placeholder="Tell us more about it" required />
     </div>
     <div className="mb-3">
       <label htmlFor="reactions" className="form-label">Number of Reactions</label>
-      <input type="text" ref={reactionsElement} className="form-control" id="reactions" placeholder="How many people reacted to this post" required/>
+      <input type="text" ref={reactionsElement} className="form-control" id="reactions" placeholder="How many people reacted to this post" required />
     </div>
     <div className="mb-3">
       <label htmlFor="tags" className="form-label">Enter your tags</label>
-      <input type="text" ref={tagsElement} className="form-control" id="tags" placeholder="Please enter your tags using space" required/>
+      <input type="text" ref={tagsElement} className="form-control" id="tags" placeholder="Please enter your tags using space" required />
     </div>
 
     <button type="submit" className="btn btn-primary">Submit</button>
