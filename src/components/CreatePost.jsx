@@ -70,4 +70,25 @@ const CreatePost = () => {
   </form>
 }
 
+// Use following function for form action with react-router-dom form 
+// export async function createPostAction(data) {
+//   const formData = await data.request.formData()
+//   const postData = Object.fromEntries(formData)
+//   postData.tags = postData.tags.split(" ")
+//   console.log("🚀 ~ createPostAction ~ postData:", postData)
+
+//   fetch('https://dummyjson.com/posts/add', {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json' },
+//     body: JSON.stringify(postData)
+//   })
+//     .then(res => res.json())
+//     .then((post) => {
+//      console.log(post)
+//     });
+
+//     return redirect('/')
+// }
+
+
 export default CreatePost
